@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Mental Health Chatbot</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f4f8;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #4CAF50;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    .chat-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .chat-box {
+      width: 90%;
+      max-width: 600px;
+      border: 2px solid #ccc;
+      border-radius: 10px;
+      padding: 10px;
+      background-color: white;
+      overflow-y: scroll;
+      height: 400px;
+    }
+    .message {
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 5px;
+    }
+    .user-message {
+      background-color: #d1e7dd;
+      align-self: flex-end;
+      text-align: right;
+    }
+    .bot-message {
+      background-color: #f8d7da;
+      align-self: flex-start;
+      text-align: left;
+    }
+    .input-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 10px;
+    }
+    .input-container input {
+      width: 80%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      margin-right: 10px;
+    }
+    .input-container button {
+      padding: 10px 15px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .input-container button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Mental Health Chatbot</h1>
+    <p>Talk to someone when you're feeling down</p>
+  </header>
+
+  <div class="chat-container">
+    <div class="chat-box" id="chat-box" aria-live="polite">
+      <!-- Chat messages will appear here -->
+    </div>
+
+    <div class="input-container">
+      <input type="text" id="user-input" placeholder="How are you feeling today?" />
+      <button onclick="sendMessage()">Send</button>
+    </div>
+  </div>
+
+  <script>
+    // Function to send user message
+    function sendMessage() {
+      const userInput = document.getElementById('user-input').value;
+      if (userInput.trim() === "") return; // Do not send empty messages
+
+      const chatBox = document.getElementById('chat-box');
+      
+      // Display the user's message
+      const userMessageDiv = document.createElement('div');
+      userMessageDiv.classList.add('message', 'user-message');
+      userMessageDiv.textContent = userInput;
+      chatBox.appendChild(userMessageDiv);
+
+      // Scroll to the bottom of the chat box
+      chatBox.scrollTop = chatBox.scrollHeight;
+
+      // Clear the input field and focus on it
+      document.getElementById('user-input').value = '';
+      document.getElementById('user-input').focus(); // Focus back on input field
+
+      // Simulate bot response after 1 second
+      setTimeout(() => {
+        const botMessageDiv = document.createElement('div');
+        botMessageDiv.classList.add('message', 'bot-message');
+        botMessageDiv.textContent = generateBotResponse(userInput);
+        chatBox.appendChild(botMessageDiv);
+
+        // Check if the user is at the bottom of the chat, and scroll if so
+        if (chatBox.scrollTop === chatBox.scrollHeight - chatBox.clientHeight) {
+          chatBox.scrollTop = chatBox.scrollHeight;
+        }
+      }, 1000);
+    }
+
+    // Function to generate a simple bot response (this could be more advanced in the future)
+    function generateBotResponse(input) {
+      const responses = [
+        "I'm here to listen. Tell me more about how you're feeling.",
+        "It's okay to feel that way. You're not alone.",
+        "I'm here to help. What can I do for you?",
+        "Take a deep breath. You're doing great!",
+        "It's tough, but you're strong. Let's work through this together."
+      ];
+
+      // A simple random response for the sake of this example
+      return responses[Math.floor(Math.random() * responses.length)];
+    }
+  </script>
+</body>
+</html>
